@@ -3,6 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input AuthenticateInput {
+  email: String!
+  password: String!
+}
+
+type AuthenticateOutput {
+  accessToken: String!
+}
+
 input CreateUserInput {
   email: String!
   username: String!
@@ -12,10 +21,12 @@ input CreateUserInput {
 
 type Mutation {
   createUser(input: CreateUserInput!): User!
+  authenticate(input: AuthenticateInput!): AuthenticateOutput!
 }
 
 type Query {
   user(id: Float!): User!
+  authTest: String!
 }
 
 type User {

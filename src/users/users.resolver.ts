@@ -1,8 +1,14 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  NotFoundException,
+  BadRequestException,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { CreateUserInput } from './dtos/create-user.input';
+import { GqlJwtGuard } from '../gql-jwt.guard';
 
 @Resolver('Users')
 export class UsersResolver {
@@ -27,5 +33,13 @@ export class UsersResolver {
       console.log(e);
       throw new BadRequestException();
     }
+  }
+
+  //here for now to make sure auth works
+  @UseGuards(GqlJwtGuard)
+  @Query(returns => String)
+  async authTest(@Context() ctx) {
+    console.log(ctx);
+    return 'authed';
   }
 }
