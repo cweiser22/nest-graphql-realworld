@@ -24,9 +24,8 @@ export class User {
   @Column()
   password: string;
 
-  @Field()
   @OneToMany(type => Article, article => article.author)
-  articles: Article;
+  articles: Article[];
 
   //TODO: setup profile pics with S3 or other service
   image: any;
