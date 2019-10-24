@@ -1,5 +1,6 @@
 import { ObjectType, Field } from 'type-graphql';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Article } from '../../articles/entities/article.entity';
 
 @ObjectType()
 @Entity()
@@ -22,6 +23,10 @@ export class User {
 
   @Column()
   password: string;
+
+  @Field()
+  @OneToMany(type => Article, article => article.author)
+  articles: Article;
 
   //TODO: setup profile pics with S3 or other service
   image: any;

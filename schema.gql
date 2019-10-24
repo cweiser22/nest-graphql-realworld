@@ -3,6 +3,17 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Article {
+  slug: String!
+  title: String!
+  description: String!
+  tags: [Tag!]!
+  body: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User!
+}
+
 input AuthenticateInput {
   email: String!
   password: String!
@@ -12,6 +23,13 @@ type AuthenticateOutput {
   accessToken: String!
 }
 
+input CreateArticleInput {
+  title: String!
+  description: String!
+  body: String!
+  tags: [String!]!
+}
+
 input CreateUserInput {
   email: String!
   username: String!
@@ -19,14 +37,26 @@ input CreateUserInput {
   password: String!
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
   authenticate(input: AuthenticateInput!): AuthenticateOutput!
+  createArticle(input: CreateArticleInput!): Article!
 }
 
 type Query {
   user(id: Float!): User!
   authTest: String!
+  article(slug: String!): Article!
+}
+
+type Tag {
+  slug: String!
+  articles: [Article!]!
 }
 
 type User {
@@ -34,4 +64,5 @@ type User {
   email: String!
   username: String!
   bio: String!
+  articles: Article!
 }
